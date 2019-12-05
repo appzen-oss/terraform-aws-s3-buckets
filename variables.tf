@@ -94,6 +94,24 @@ variable "force_destroy" {
   default     = false
 }
 
+variable "encryption" {
+  type        = "string"
+  default     = "false"
+  description = "If encryption is true, create an S3 bucket with default encryption i.e. `AES256`"
+}
+
+variable "kms_master_key_arn" {
+  type        = "string"
+  default     = ""
+  description = "The AWS KMS master key ARN used for the SSE-KMS encryption. This can only be used when you set the value of encryption as true. The default aws/s3 AWS KMS master key is used if this element is absent"
+}
+
+variable "allow_encrypted_uploads_only" {
+  type        = "string"
+  default     = "false"
+  description = "Set to `true` to prevent uploads of unencrypted objects to S3 bucket"
+}
+
 variable "principal" {
   description = "principal"
   default     = "*"
