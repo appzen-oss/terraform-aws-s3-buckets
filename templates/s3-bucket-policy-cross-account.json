@@ -1,0 +1,38 @@
+{
+  "Sid": "Enable cross account object access",
+  "Effect": "Allow",
+  "Principal": {"AWS": ${jsonencode(split(",", principals))}},
+  "Action": [
+  ${write_objects ? <<TRUE
+    "s3:DeleteObject",
+    "s3:PutObject",
+    "s3:ReplicateObject",
+    "s3:RestoreObject",
+    "s3:PutObjectAcl",
+TRUE
+: ""}
+    "s3:GetObject"
+  ],
+  "Resource": "${s3_bucket_arn}/*"
+},
+{
+  "Sid": "Enable cross acount list bucket",
+  "Effect": "Allow",
+  "Principal": {"AWS": ${jsonencode(split(",", principals))}},
+  "Action": [
+    "s3:ListBucket"
+  ],
+  "Resource": "${s3_bucket_arn}"
+},
+{
+  "Sid": "Prevent creating objects that bucket owner (ourselves) cannot access",
+  "Effect": "Deny",
+  "Principal": "*",
+  "Action": "s3:PutObject",
+  "Resource": "${s3_bucket_arn}/*",
+  "Condition": {
+    "StringNotEquals": {
+      "s3:x-amz-acl": "bucket-owner-full-control"
+    }
+  }
+}
