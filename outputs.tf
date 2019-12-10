@@ -28,6 +28,11 @@ output "names" {
   value       = "${aws_s3_bucket.this.*.id}"
 }
 
+output "regional_domain_names" {
+  description = "List of AWS S3 region specific domain names"
+  value       = "${aws_s3_bucket.this.*.bucket_regional_domain_name}"
+}
+
 output "regions" {
   description = "List of AWS S3 Bucket Regions"
   value       = "${aws_s3_bucket.this.*.region}"
@@ -36,4 +41,3 @@ output "regions" {
 #aws_s3_bucket_object.this.id
 #aws_s3_bucket_object.this.etag
 #aws_s3_bucket_object.this.version_id
-
