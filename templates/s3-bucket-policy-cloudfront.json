@@ -1,0 +1,19 @@
+
+{
+  "Sid": "CloudfrontList",
+  "Effect": "Allow",
+  "Principal": {"AWS": "${cloudfront_access_identity_iam_arn}"},
+  "Action": [
+    "s3:ListBucket"
+  ],
+  "Resource": "${s3_bucket_arn}"
+},
+{
+  "Sid": "CloudfrontGet",
+  "Effect": "Allow",
+  "Principal": {"AWS": "${cloudfront_access_identity_iam_arn}"},
+  "Action": [
+    "s3:GetObject"
+  ],
+  "Resource": "${s3_bucket_arn}/*"
+}

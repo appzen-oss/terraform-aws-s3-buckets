@@ -84,26 +84,10 @@ variable "team" {
 //
 // Module specific Variables
 //
-variable "enabled" {
-  description = "Set to false to prevent the module from creating anything"
-  default     = true
-}
-
-variable "force_destroy" {
-  description = "Delete all objects in bucket on destroy"
+variable "allow_cross_account_write" {
+  description = "Allow cross acount access to write"
+  type        = "string"
   default     = false
-}
-
-variable "encryption" {
-  type        = "string"
-  default     = "false"
-  description = "If encryption is true, create an S3 bucket with default encryption i.e. `AES256`"
-}
-
-variable "kms_master_key_arn" {
-  type        = "string"
-  default     = ""
-  description = "The AWS KMS master key ARN used for the SSE-KMS encryption. This can only be used when you set the value of encryption as true. The default aws/s3 AWS KMS master key is used if this element is absent"
 }
 
 variable "allow_encrypted_uploads_only" {
@@ -112,9 +96,36 @@ variable "allow_encrypted_uploads_only" {
   description = "Set to `true` to prevent uploads of unencrypted objects to S3 bucket"
 }
 
-variable "principal" {
-  description = "principal"
-  default     = "*"
+variable "cloudfront_access_identity_iam_arn" {
+  description = "cloudfront access identity iam arn"
+  default     = ""
+}
+
+variable "enabled" {
+  description = "Set to false to prevent the module from creating anything"
+  default     = true
+}
+
+variable "encryption" {
+  type        = "string"
+  default     = "false"
+  description = "If encryption is true, create an S3 bucket with default encryption i.e. `AES256`"
+}
+
+variable "force_destroy" {
+  description = "Delete all objects in bucket on destroy"
+  default     = false
+}
+
+variable "kms_master_key_arn" {
+  type        = "string"
+  default     = ""
+  description = "The AWS KMS master key ARN used for the SSE-KMS encryption. This can only be used when you set the value of encryption as true. The default aws/s3 AWS KMS master key is used if this element is absent"
+}
+
+variable "principals" {
+  description = "principals"
+  default     = ""
 }
 
 variable "public" {
