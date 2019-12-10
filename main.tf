@@ -41,6 +41,7 @@ module "labels" {
 
 locals {
   enable_encryption = "${var.encryption || var.kms_master_key_arn != "" ? 1 : 0}"
+
   encryption_def = {
     "1" = [{
       rule = [{
@@ -96,6 +97,7 @@ resource "aws_s3_bucket_public_access_block" "this" {
 
 #resource "aws_s3_bucket_notification"
 
+
 /*
 resource "aws_s3_bucket_object" "this" {
   count   = "${length(var.files)}"
@@ -105,3 +107,4 @@ resource "aws_s3_bucket_object" "this" {
   etag    = "${md5(file("${lookup(var.files, element(keys(var.files), count.index))}"))}"
 }
 */
+

@@ -86,7 +86,7 @@ variable "team" {
 //
 variable "allow_cross_account_write" {
   description = "Allow cross acount access to write"
-  type = "string"
+  type        = "string"
   default     = false
 }
 
@@ -95,14 +95,17 @@ variable "allow_encrypted_uploads_only" {
   default     = "false"
   description = "Set to `true` to prevent uploads of unencrypted objects to S3 bucket"
 }
+
 variable "cloudfront_access_identity_iam_arn" {
   description = "cloudfront access identity iam arn"
   default     = ""
 }
+
 variable "enabled" {
   description = "Set to false to prevent the module from creating anything"
   default     = true
 }
+
 variable "encryption" {
   type        = "string"
   default     = "false"
@@ -134,6 +137,7 @@ variable "versioned" {
   description = "Version the bucket"
   default     = false
 }
+
 //
 // S3 Public restriction block
 //

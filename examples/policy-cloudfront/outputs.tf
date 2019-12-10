@@ -34,3 +34,4 @@ output "regions" {
   value       = "${module.s3.regions}"
 }
 */
+

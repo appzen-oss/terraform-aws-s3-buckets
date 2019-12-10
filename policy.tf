@@ -1,16 +1,15 @@
-
 data "template_file" "cloudfront" {
-  count = "${module.enabled.value ? length(var.names) : 0}"
+  count    = "${module.enabled.value ? length(var.names) : 0}"
   template = "${file("${path.module}/templates/s3-bucket-policy-cloudfront.json")}"
 
   vars {
     cloudfront_access_identity_iam_arn = "${var.cloudfront_access_identity_iam_arn}"
-    s3_bucket_arn = "${element(aws_s3_bucket.this.*.arn, count.index)}"
+    s3_bucket_arn                      = "${element(aws_s3_bucket.this.*.arn, count.index)}"
   }
 }
 
 data "template_file" "cross_account" {
-  count = "${module.enabled.value ? length(var.names) : 0}"
+  count    = "${module.enabled.value ? length(var.names) : 0}"
   template = "${file("${path.module}/templates/s3-bucket-policy-cross-account.json")}"
 
   vars {
@@ -22,7 +21,7 @@ data "template_file" "cross_account" {
 
 # https://aws.amazon.com/blogs/security/how-to-prevent-uploads-of-unencrypted-objects-to-amazon-s3/
 data "template_file" "encryption" {
-  count = "${module.enabled.value ? length(var.names) : 0}"
+  count    = "${module.enabled.value ? length(var.names) : 0}"
   template = "${file("${path.module}/templates/s3-bucket-policy-encryption.json")}"
 
   vars {
@@ -38,10 +37,11 @@ locals {
     (var.encryption || var.kms_master_key_arn != "")
     ? 1 : 0}"
 }
+
 resource "aws_s3_bucket_policy" "all" {
   depends_on = ["aws_s3_bucket.this", "aws_s3_bucket_public_access_block.this"]
-  count = "${module.enabled.value && local.policy_non_empty ? length(var.names) : 0}"
-  bucket = "${element(aws_s3_bucket.this.*.id, count.index)}"
+  count      = "${module.enabled.value && local.policy_non_empty ? length(var.names) : 0}"
+  bucket     = "${element(aws_s3_bucket.this.*.id, count.index)}"
 
   policy = <<POLICY
 {
