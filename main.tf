@@ -160,6 +160,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     }
   }
 
+  /*
   statement {
     sid       = "BucketOwnerFullAccess"
     effect    = "Deny"
@@ -176,7 +177,7 @@ data "aws_iam_policy_document" "bucket_policy" {
       values   = ["bucket-owner-full-control"]
       variable = "s3:x-amz-acl"
     }
-  }
+  }*/
 }
 
 resource "aws_s3_bucket_policy" "default" {
