@@ -4,7 +4,7 @@ data "template_file" "cloudfront" {
 
   vars {
     cloudfront_access_identity_iam_arn = "${var.cloudfront_access_identity_iam_arn}"
-    s3_bucket_arn                      = "${element(aws_s3_bucket.this.*.arn, count.index)}"
+    s3_bucket_arn                      = "${element(concat(aws_s3_bucket.this.*.arn, aws_s3_bucket.encrypted.*.arn), count.index)}"
   }
 }
 
@@ -14,7 +14,7 @@ data "template_file" "cross_account" {
 
   vars {
     principals    = "${var.principals}"
-    s3_bucket_arn = "${element(aws_s3_bucket.this.*.arn, count.index)}"
+    s3_bucket_arn = "${element(concat(aws_s3_bucket.this.*.arn, aws_s3_bucket.encrypted.*.arn), count.index)}"
     write_objects = "${var.allow_cross_account_write}"
   }
 }
@@ -26,7 +26,7 @@ data "template_file" "encryption" {
 
   vars {
     kms           = "${var.kms_master_key_arn != "" ? true : false}"
-    s3_bucket_arn = "${element(aws_s3_bucket.this.*.arn, count.index)}"
+    s3_bucket_arn = "${element(concat(aws_s3_bucket.this.*.arn, aws_s3_bucket.encrypted.*.arn), count.index)}"
   }
 }
 
@@ -39,14 +39,14 @@ locals {
 }
 
 resource "aws_s3_bucket_policy" "all" {
-  depends_on = ["aws_s3_bucket.this", "aws_s3_bucket_public_access_block.this"]
+  depends_on = ["aws_s3_bucket.this", "aws_s3_bucket.encrypted", "aws_s3_bucket_public_access_block.this"]
   count      = "${module.enabled.value && local.policy_non_empty ? length(var.names) : 0}"
-  bucket     = "${element(aws_s3_bucket.this.*.id, count.index)}"
+  bucket     = "${element(concat(aws_s3_bucket.this.*.id, aws_s3_bucket.encrypted.*.id), count.index)}"
 
   policy = <<POLICY
 {
   "Version": "2012-10-17",
-  "Id": "${aws_s3_bucket.this.id}-Policy",
+  "Id": "${element(concat(aws_s3_bucket.this.*.id, aws_s3_bucket.encrypted.*.id), count.index)}-Policy",
   "Statement": [
     ${join(",\n", compact(list(
       "${var.cloudfront_access_identity_iam_arn != "" ? element(data.template_file.cloudfront.*.rendered, count.index) : ""}",

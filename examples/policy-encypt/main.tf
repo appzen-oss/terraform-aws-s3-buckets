@@ -1,9 +1,16 @@
+data "aws_kms_alias" "account" {
+  name = "alias/account"
+}
+
 module "s3" {
   source       = "../../"
   names        = ["bucket"]
   environment  = "dev"
   organization = "testingorg"
   encryption   = true
+  kms_master_key_arn = "${data.aws_kms_alias.account.target_key_arn}"
+}
 
-  #kms_master_key_arn = "arn:aws:kms:us-east-1:123456789012:key/111-111-111-111-111"
+output "kms_key_arn" {
+  value = "${data.aws_kms_alias.account.arn}"
 }

@@ -1,3 +1,4 @@
+/**/
 output "arns" {
   description = "List of AWS S3 Bucket ARNs"
   value       = "${module.s3.arns}"
@@ -32,3 +33,4 @@ output "regions" {
   description = "List of AWS S3 Bucket Regions"
   value       = "${module.s3.regions}"
 }
+/**/
