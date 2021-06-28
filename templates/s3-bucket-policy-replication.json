@@ -1,0 +1,21 @@
+{
+    "Version": "2008-10-17",
+    "Id": "S3-Console-Replication-Policy",
+    "Statement": [
+        {
+            "Sid": "GrantSourceBucketAccess",
+            "Effect": "Allow",
+            "Principal": {"AWS": "${principal_replication_src}"},
+            "Action": [
+                "s3:GetBucketVersioning",
+                "s3:PutBucketVersioning",
+                "s3:ReplicateObject",
+                "s3:ReplicateDelete"
+            ],
+            "Resource": [
+                "${s3_bucket_arn}",
+                "${s3_bucket_arn}/*"
+            ]
+        }
+    ]
+}

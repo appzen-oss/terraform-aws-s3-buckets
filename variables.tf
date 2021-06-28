@@ -3,36 +3,36 @@
 //
 variable "attributes" {
   description = "Suffix name with additional attributes (policy, role, etc.)"
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
 variable "component" {
   description = "TAG: Underlying, dedicated piece of service (Cache, DB, ...)"
-  type        = "string"
+  type        = string
   default     = "UNDEF-S3-Buckets"
 }
 
 variable "delimiter" {
   description = "Delimiter to be used between `name`, `namespaces`, `attributes`, etc."
-  type        = "string"
+  type        = string
   default     = "-"
 }
 
 variable "environment" {
   description = "Environment (ex: `dev`, `qa`, `stage`, `prod`). (Second or top level namespace. Depending on namespacing options)"
-  type        = "string"
+  type        = string
 }
 
 variable "monitor" {
   description = "TAG: Should resource be monitored"
-  type        = "string"
+  type        = string
   default     = "UNDEF-S3-Buckets"
 }
 
 variable "names" {
   description = "List of S3 bucket names"
-  type        = "list"
+  type        = list(string)
 }
 
 variable "namespace-env" {
@@ -47,37 +47,37 @@ variable "namespace-org" {
 
 variable "organization" {
   description = "Organization name (Top level namespace)"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
 variable "owner" {
   description = "TAG: Owner of the service"
-  type        = "string"
+  type        = string
   default     = "UNDEF-S3-Buckets"
 }
 
 variable "product" {
   description = "TAG: Company/business product"
-  type        = "string"
+  type        = string
   default     = "UNDEF-S3-Buckets"
 }
 
 variable "service" {
   description = "TAG: Application (microservice) name"
-  type        = "string"
+  type        = string
   default     = "UNDEF-S3-Buckets"
 }
 
 variable "tags" {
   description = "A map of additional tags"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 variable "team" {
   description = "TAG: Department/team of people responsible for service"
-  type        = "string"
+  type        = string
   default     = "UNDEF-S3-Buckets"
 }
 
@@ -86,12 +86,12 @@ variable "team" {
 //
 variable "allow_cross_account_write" {
   description = "Allow cross acount access to write"
-  type        = "string"
+  type        = string
   default     = false
 }
 
 variable "allow_encrypted_uploads_only" {
-  type        = "string"
+  type        = string
   default     = "false"
   description = "Set to `true` to prevent uploads of unencrypted objects to S3 bucket"
 }
@@ -107,7 +107,7 @@ variable "enabled" {
 }
 
 variable "encryption" {
-  type        = "string"
+  type        = string
   default     = "false"
   description = "If encryption is true, create an S3 bucket with default encryption i.e. `AES256`"
 }
@@ -118,9 +118,14 @@ variable "force_destroy" {
 }
 
 variable "kms_master_key_arn" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "The AWS KMS master key ARN used for the SSE-KMS encryption. This can only be used when you set the value of encryption as true. The default aws/s3 AWS KMS master key is used if this element is absent"
+}
+
+variable "principal_replication_src" {
+  description = "Principal of S3 source bucket"
+  default     = ""
 }
 
 variable "principals" {
@@ -160,3 +165,4 @@ variable "restrict_public_buckets" {
   description = "Whether Amazon S3 should restrict public bucket policies for this bucket"
   default     = true
 }
+

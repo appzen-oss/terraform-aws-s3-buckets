@@ -1,0 +1,16 @@
+
+{
+  "Sid": "AllowListingOfUserFolder",
+  "Action": ["s3:ListBucket"],
+  "Effect": "Allow",
+  "Principal": {"AWS": ${jsonencode(split(",", principals))}},
+  "Resource": ["arn:aws:s3:::my-company"],
+  "Condition":{"StringLike":{"s3:prefix":["home/David/*"]}}
+},
+{
+  "Sid": "AllowAllS3ActionsInUserFolder",
+  "Effect": "Allow",
+  "Principal": {"AWS": ${jsonencode(split(",", principals))}},
+  "Action": ["s3:GetObject"],
+  "Resource": ["arn:aws:s3:::my-company/home/David/*"]
+}
