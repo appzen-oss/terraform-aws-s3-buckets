@@ -5,3 +5,4 @@ module "s3" {
   organization                       = "testingorg"
   cloudfront_access_identity_iam_arn = "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity XSWJ834MSAS"
 }
+

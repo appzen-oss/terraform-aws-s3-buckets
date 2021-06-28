@@ -6,3 +6,4 @@ module "s3" {
   principals                = "123456789012,234567890123"
   allow_cross_account_write = true
 }
+

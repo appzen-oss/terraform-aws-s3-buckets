@@ -8,3 +8,4 @@ module "s3" {
   allow_cross_account_write          = true
   encryption                         = true
 }
+
